@@ -3,6 +3,31 @@
 A friendly, safe cleanup and speed-up app for the whole family. Free and open source (MIT). Native SwiftUI, built with Swift Package Manager.
 No Xcode required, only the Command Line Tools.
 
+## Install
+
+**Download**: grab the latest `Tidy-for-Mac-<version>.dmg` from the
+[Releases page](https://github.com/keithadler/tidymac/releases/latest), open it, and drag Tidy for Mac
+onto the Applications folder.
+
+**First open, once**: the download isn't signed with a paid Apple developer certificate, so macOS
+will say it can't check it for malware. Open System Settings > Privacy & Security, scroll down, and
+click **Open Anyway** next to Tidy for Mac. Enter your password once. After that it opens normally
+and never asks again. Terminal users can instead run:
+
+```bash
+xattr -d com.apple.quarantine "/Applications/Tidy for Mac.app"
+```
+
+Requires macOS 14 Sonoma or later. Intel and Apple Silicon (universal).
+
+**Build from source** instead, if you'd rather (Command Line Tools only, no Xcode):
+
+```bash
+git clone https://github.com/keithadler/tidymac.git && cd tidymac && ./build-app.sh --install --run
+```
+
+That also installs the `tidymac` command line and its man page.
+
 ## Screenshots
 
 All screenshots are rendered by the app itself from made-up sample data (`--screenshots`), so they
@@ -135,6 +160,13 @@ it can't back up:
 - Declining the Automation prompt (System Events or Finder) shows an explanation and an Allow
   button instead of an empty list or a silent failure.
 - System Settings pane links fall back to opening System Settings when a pane id has moved.
+
+## Releasing
+
+`./make-dmg.sh` builds a universal, ad-hoc signed app and wraps it in `build/Tidy-for-Mac-<version>.dmg`
+with an Applications shortcut and a first-open note. Upload it with
+`gh release create v<version> build/Tidy-for-Mac-<version>.dmg`. With a Developer ID, sign with
+`SIGN_IDENTITY` and run `notarize.sh` first so the first-open warning disappears.
 
 ## Build and run
 
