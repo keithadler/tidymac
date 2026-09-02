@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Tidy for Mac</string>
+	<key>CFBundleExecutable</key>
+	<string>TidyMac</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.keithadler.tidymac</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>es</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>Tidy for Mac</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.3.0</string>
+	<key>CFBundleVersion</key>
+	<string>3</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Tidy for Mac asks Finder to empty the Trash, but only when you click Empty Trash.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Tidy for Mac looks for very large files so you can decide about them. Nothing is removed without asking.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Tidy for Mac looks for very large files so you can decide about them. Nothing is removed without asking.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Tidy for Mac looks in Downloads for old installers. It never deletes anything without asking, and everything goes to the Trash first.</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Keith Adler</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Tidy for Mac sends a note when the weekly tidy runs or the disk is almost full.</string>
+</dict>
+</plist>

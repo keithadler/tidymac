@@ -1,0 +1,146 @@
+.TH TIDYMAC 1 "September 2026" "Tidy for Mac" "User Commands"
+.SH NAME
+tidymac \- a friendly, safe cleanup and speed-up for your Mac
+.SH SYNOPSIS
+.B tidymac scan
+[\fB\-\-card\fR \fIname\fR ...] [\fB\-\-json\fR]
+.br
+.B tidymac up
+(\fB\-\-safe\fR | \fB\-\-card\fR \fIname\fR ... | \fB\-\-all\-checked\fR) [\fB\-\-dry\-run\fR] [\fB\-\-yes\fR] [\fB\-\-json\fR]
+.br
+.B tidymac speed
+[\fB\-\-card\fR \fIname\fR ...] [\fB\-\-all\fR] [\fB\-\-updates\fR] [\fB\-\-app\-updates\fR] [\fB\-\-bench\fR] [\fB\-\-json\fR]
+.br
+.B tidymac receipts
+[\fB\-\-json\fR]
+.br
+.B tidymac restore
+\fIsession\-id\fR | \fBlast\fR [\fB\-\-json\fR]
+.br
+.B tidymac trash
+[\fB\-\-empty\fR \fB\-\-yes\fR] [\fB\-\-json\fR]
+.br
+.B tidymac disk
+[\fB\-\-json\fR]
+.br
+.B tidymac money
+[\fB\-\-speedtest\fR] [\fB\-\-plan\fR \fImbps\fR] [\fB\-\-json\fR]
+.br
+.B tidymac sort
+[\fB\-\-desktop\fR] [\fB\-\-downloads\fR] [\fB\-\-older\-than\fR \fIdays\fR] [\fB\-\-dry\-run\fR] [\fB\-\-yes\fR] [\fB\-\-json\fR]
+.br
+.B tidymac report
+[\fB\-\-out\fR \fIfile\fR] [\fB\-\-md\fR] [\fB\-\-open\fR]
+.br
+.B tidymac screenshots
+\fIdirectory\fR
+.br
+.B tidymac
+\fBhelp\fR | \fBversion\fR
+.SH DESCRIPTION
+.B tidymac
+is the command-line face of Tidy for Mac. It shares every scanner and action with the app, so the
+two never disagree. Nothing is deleted outright: everything goes to the Trash, every action writes
+a receipt, and
+.B tidymac restore
+puts a session back while its items are still in the Trash. No command ever asks for an
+administrator password; where one is needed the command to run is printed instead.
+.SH COMMANDS
+.TP
+.B scan
+Show what could be tidied, card by card. Changes nothing. Items marked \fB[x]\fR are pre-checked
+(safe to move), \fB[ ]\fR are for you to decide, and a shield marks protected items that never move.
+.TP
+.B up
+Move the pre-checked items of the chosen cards to the Trash and save a receipt.
+\fB\-\-safe\fR selects caches, logs, installers and developer caches, the same set the app's weekly
+quiet tidy uses. In a terminal it asks before moving; from a script it exits 3 unless \fB\-\-yes\fR
+is given. \fB\-\-dry\-run\fR shows the plan and moves nothing. Items not pre-checked in the app are
+never moved.
+.TP
+.B speed
+Print the health verdict and the Speed cards. The exit status is the verdict: 0 green, 1 yellow,
+2 red. Slow cards (\fBupdates\fR, \fBapp\-updates\fR, \fBbench\fR) run only when named or flagged.
+\fB\-\-all\fR also runs the startup card, which asks System Events for login items.
+.TP
+.B receipts
+List every past session, newest first, with its id.
+.TP
+.B restore
+Put a session's items back where they were. Accepts an id prefix or \fBlast\fR.
+.TP
+.B trash
+Show the Trash size. With \fB\-\-empty \-\-yes\fR, ask Finder to empty it.
+.TP
+.B disk
+Print the boot-volume map from the physical disk down to the sealed snapshot macOS booted from.
+.TP
+.B money
+The Money tab as text: the "is this Mac done" verdict, battery decision, subscription apps with
+last-opened dates, cloud-drive overlap, what a tidy would free, built-in alternatives.
+\fB\-\-speedtest\fR downloads from a nearby server for a few seconds; \fB\-\-plan\fR compares
+with the speed on your bill.
+.TP
+.B sort
+File loose Desktop and Downloads files older than \fIdays\fR (default 7) into typed folders under a
+"Tidied" folder in the same place. Moves, never deletes; a receipt is saved so \fBrestore\fR undoes it.
+.TP
+.B report
+Write the monthly checkup as one HTML page (\fB\-\-md\fR for Markdown; \fB\-\-out \-\fR for stdout).
+Default file: ~/Desktop/Tidy checkup <date>.html.
+.TP
+.B screenshots
+Render every window with sample data into PNG files in \fIdirectory\fR.
+.SH CARDS
+Scan and up:
+.B caches logs installers dev claude duplicates leftovers unused backups big
+.PP
+Speed:
+.B health now startup browsers wifi sync timemachine rosetta menubar printers power sleep safety batteries defaults
+and, on request,
+.B updates app\-updates bench
+.SH OPTIONS
+.TP
+.B \-\-json
+Machine-readable output on every command. Sizes are bytes, dates ISO 8601.
+.TP
+.B \-\-yes
+Skip the confirmation for \fBup\fR and \fBtrash \-\-empty\fR.
+.TP
+.B \-\-dry\-run
+Show what \fBup\fR would move and move nothing.
+.SH EXIT STATUS
+.TP
+.B 0
+Success, or a green verdict from \fBspeed\fR.
+.TP
+.B 1
+\fBspeed\fR: yellow verdict.
+.TP
+.B 2
+\fBspeed\fR: red verdict.
+.TP
+.B 3
+Confirmation needed; run again with \fB\-\-yes\fR.
+.TP
+.B 64
+Usage error.
+.TP
+.B 70
+The command ran but failed.
+.SH FILES
+.TP
+.I ~/Library/Application Support/Tidy Mac/history.json
+Receipts of every session.
+.SH EXAMPLES
+.nf
+tidymac scan
+tidymac up \-\-safe \-\-dry\-run
+tidymac up \-\-safe \-\-yes \-\-json
+tidymac speed \-\-card safety \-\-json | jq '.cards.safety[] | select(.ok == false)'
+tidymac restore last
+.fi
+.SH SEE ALSO
+The app: Tidy for Mac in your Applications folder. Full documentation in docs/CLI.md.
+.SH AUTHOR
+Keith Adler. MIT licensed. Mac and macOS are trademarks of Apple Inc.; this project is independent.
