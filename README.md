@@ -5,28 +5,54 @@ No Xcode required, only the Command Line Tools.
 
 ## Install
 
-**Download**: grab the latest `Tidy-for-Mac-<version>.dmg` from the
-[Releases page](https://github.com/keithadler/tidymac/releases/latest), open it, and drag Tidy for Mac
-onto the Applications folder.
+Five minutes, no experience needed. Read each step, then do it.
 
-**First open, once**: the download isn't signed with a paid Apple developer certificate, so macOS
-will say it can't check it for malware. Open System Settings > Privacy & Security, scroll down, and
-click **Open Anyway** next to Tidy for Mac. Enter your password once. After that it opens normally
-and never asks again. Terminal users can instead run:
+1. **Download it.** Click this link: [Download Tidy for Mac](https://github.com/keithadler/tidymac/releases/latest).
+   On that page, look under **Assets** and click the file that ends in **.dmg**. It saves to your Downloads folder.
+
+2. **Open the download.** Click the Downloads icon at the right end of the Dock (or open Finder and choose
+   Downloads) and double-click **Tidy-for-Mac-0.3.0.dmg**. A small window opens with the Tidy for Mac icon and
+   a folder called Applications.
+
+3. **Drag the icon onto the Applications folder** in that same window. That copies the app onto your Mac.
+   You can then close the small window and drag the disk icon on your desktop to the Trash. That doesn't remove
+   the app.
+
+4. **Open it the first time.** Open Launchpad (the rocket in the Dock) or your Applications folder and click
+   **Tidy for Mac**. macOS will show a message saying it **can't check the app for malicious software** and
+   offer only Done or Move to Trash. Click **Done**. This is normal: it happens to every app that isn't sold
+   through Apple, and it does not mean anything is wrong.
+
+5. **Tell macOS it's okay, once.** Click the Apple menu at the top-left of the screen, then **System Settings**.
+   In the left list click **Privacy & Security**. Scroll the right side all the way down. You'll see a line
+   saying "Tidy for Mac" was blocked, with an **Open Anyway** button. Click it, type your Mac password, and
+   click **Open**.
+
+6. **That's it.** From now on Tidy for Mac opens like any other app, and macOS never asks again. The first
+   time it looks in your Downloads folder, macOS will ask if it may. Click **Allow**.
+
+Works on any Mac running macOS 14 Sonoma or newer. If you're not sure which you have: Apple menu > About This Mac.
+
+**Why the warning?** Apple charges developers $99 a year for the certificate that skips it. This is a free,
+open-source project, so it doesn't have one. The whole source code is in this repository for anyone to read.
+
+<details>
+<summary>For the technically minded</summary>
+
+Skip the Open Anyway step from Terminal:
 
 ```bash
 xattr -d com.apple.quarantine "/Applications/Tidy for Mac.app"
 ```
 
-Requires macOS 14 Sonoma or later. Intel and Apple Silicon (universal).
-
-**Build from source** instead, if you'd rather (Command Line Tools only, no Xcode):
+Or build from source (Command Line Tools only, no Xcode), which also installs the `tidymac` command and its man page:
 
 ```bash
 git clone https://github.com/keithadler/tidymac.git && cd tidymac && ./build-app.sh --install --run
 ```
 
-That also installs the `tidymac` command line and its man page.
+Universal binary, Intel and Apple Silicon.
+</details>
 
 ## Screenshots
 
