@@ -5,13 +5,15 @@ No Xcode required, only the Command Line Tools.
 
 ## Install
 
+**[Download Tidy for Mac 1.0.0 (DMG, 4 MB)](https://github.com/keithadler/tidymac/releases/download/v1.0.0/Tidy-for-Mac-1.0.0.dmg)**
+
 Five minutes, no experience needed. Read each step, then do it.
 
-1. **Download it.** Click this link: [Download Tidy for Mac](https://github.com/keithadler/tidymac/releases/latest).
-   On that page, look under **Assets** and click the file that ends in **.dmg**. It saves to your Downloads folder.
+1. **Download it.** Click the bold link above. The file **Tidy-for-Mac-1.0.0.dmg** saves to your Downloads folder.
+   (Every version is also on the [releases page](https://github.com/keithadler/tidymac/releases/latest) under **Assets**.)
 
 2. **Open the download.** Click the Downloads icon at the right end of the Dock (or open Finder and choose
-   Downloads) and double-click **Tidy-for-Mac-0.3.0.dmg**. A small window opens with the Tidy for Mac icon and
+   Downloads) and double-click **Tidy-for-Mac-1.0.0.dmg**. A small window opens with the Tidy for Mac icon and
    a folder called Applications.
 
 3. **Drag the icon onto the Applications folder** in that same window. That copies the app onto your Mac.
