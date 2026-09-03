@@ -288,8 +288,9 @@ trademarks of their respective owners and are used only to identify those produc
 
 ## More from the same maker
 
-Three more small apps built the same way: each does one thing, says exactly what it touches, and never phones home. Free, MIT licensed, no accounts. All four at [keithadler.github.io](https://keithadler.github.io).
+Four more small apps built the same way: each does one thing, says exactly what it touches, and never phones home. Free, MIT licensed, no accounts. All five at [keithadler.github.io](https://keithadler.github.io).
 
+- [Ask for Mac](https://github.com/keithadler/askmac): ask your files a question in your own words and get the answer with the file it came from, all on the Mac.
 - [Permissions for Mac](https://github.com/keithadler/permsmac): every permission on your Mac on one screen, in plain English, with what changed since last week.
 - [Clip for Mac](https://github.com/keithadler/clipmac): a clipboard that remembers, with a stack you paste through one item at a time, and that refuses to record passwords.
 - [Stash for Mac](https://github.com/keithadler/stashmac): encrypted backup into storage you already have; the provider only ever sees ciphertext.
