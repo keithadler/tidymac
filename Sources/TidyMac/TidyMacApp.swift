@@ -30,6 +30,12 @@ struct TidyMacApp: App {
         .commands {
             CommandGroup(replacing: .newItem) { }
             CommandGroup(after: .appInfo) { Button("Check for Updates…") { Updates.checkAndPresent() } }
+            CommandGroup(replacing: .help) {
+                Button("Tidy for Mac Help") { NSWorkspace.shared.open(URL(string: "https://github.com/keithadler/tidymac#readme")!) }
+                Button("Report a Problem…") { NSWorkspace.shared.open(URL(string: "https://github.com/keithadler/tidymac/issues")!) }
+                Divider()
+                Button("More from the Same Maker…") { NSWorkspace.shared.open(URL(string: "https://keithadler.github.io")!) }
+            }
             CommandMenu("View") {
                 Toggle("Compact Rows", isOn: Binding(
                     get: { UserDefaults.standard.bool(forKey: ViewOptions.compact) },

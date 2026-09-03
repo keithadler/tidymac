@@ -5,15 +5,15 @@ No Xcode required, only the Command Line Tools.
 
 ## Install
 
-**[Download Tidy for Mac 1.0.2 (DMG, 4 MB)](https://github.com/keithadler/tidymac/releases/download/v1.0.2/Tidy-for-Mac-1.0.2.dmg)**
+**[Download Tidy for Mac 1.0.3 (DMG, 4 MB)](https://github.com/keithadler/tidymac/releases/download/v1.0.3/Tidy-for-Mac-1.0.3.dmg)**
 
 Five minutes, no experience needed. Read each step, then do it.
 
-1. **Download it.** Click the bold link above. The file **Tidy-for-Mac-1.0.2.dmg** saves to your Downloads folder.
+1. **Download it.** Click the bold link above. The file **Tidy-for-Mac-1.0.3.dmg** saves to your Downloads folder.
    (Every version is also on the [releases page](https://github.com/keithadler/tidymac/releases/latest) under **Assets**.)
 
 2. **Open the download.** Click the Downloads icon at the right end of the Dock (or open Finder and choose
-   Downloads) and double-click **Tidy-for-Mac-1.0.2.dmg**. A small window opens with the Tidy for Mac icon and
+   Downloads) and double-click **Tidy-for-Mac-1.0.3.dmg**. A small window opens with the Tidy for Mac icon and
    a folder called Applications.
 
 3. **Drag the icon onto the Applications folder** in that same window. That copies the app onto your Mac.
@@ -285,3 +285,11 @@ Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other cou
 is an independent project and has not been authorized, sponsored, or otherwise approved by Apple Inc.
 Other product names mentioned in the app (Chrome, Dropbox, Google Drive, OneDrive, and so on) are
 trademarks of their respective owners and are used only to identify those products.
+
+## More from the same maker
+
+Three more small apps built the same way: each does one thing, says exactly what it touches, and never phones home. Free, MIT licensed, no accounts. All four at [keithadler.github.io](https://keithadler.github.io).
+
+- [Permissions for Mac](https://github.com/keithadler/permsmac): every permission on your Mac on one screen, in plain English, with what changed since last week.
+- [Clip for Mac](https://github.com/keithadler/clipmac): a clipboard that remembers, with a stack you paste through one item at a time, and that refuses to record passwords.
+- [Stash for Mac](https://github.com/keithadler/stashmac): encrypted backup into storage you already have; the provider only ever sees ciphertext.
