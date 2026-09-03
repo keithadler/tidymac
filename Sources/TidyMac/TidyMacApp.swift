@@ -29,6 +29,7 @@ struct TidyMacApp: App {
         .defaultSize(width: 900, height: 920)
         .commands {
             CommandGroup(replacing: .newItem) { }
+            CommandGroup(after: .appInfo) { Button("Check for Updates…") { Updates.checkAndPresent() } }
             CommandMenu("View") {
                 Toggle("Compact Rows", isOn: Binding(
                     get: { UserDefaults.standard.bool(forKey: ViewOptions.compact) },

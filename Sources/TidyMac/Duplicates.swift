@@ -4,14 +4,39 @@
 //  folders are skipped (projects repeat assets on purpose), and only extra copies living in
 //  Downloads or on the Desktop are pre-checked, since that's where accidental re-downloads land.
 //  The oldest copy is always the one kept.
+//
+//  Cloud placeholders are never opened. With Desktop & Documents in iCloud most files are
+//  "dataless" until read, and reading one makes iCloud download it; a scan that did that filled a
+//  Mac's disk until macOS started pausing apps. The scan also hashes the first 128 KB before the
+//  whole file, and stops after a time and byte budget so it can never run for hours.
 
 import Foundation
 import CryptoKit
 
 /// Finds files with byte-for-byte identical contents in the home folder.
 enum Duplicates {
+    static let timeBudget: TimeInterval = 90
+    static let byteBudget: Int64 = 6_000_000_000
+    /// Set by the last scan when it hit a budget, so the card can say the list may be incomplete.
+    nonisolated(unsafe) static var lastScanWasCutShort = false
+
+    /// True for files whose bytes are not on this disk (iCloud, Dropbox, OneDrive, Google Drive placeholders).
+    static func isDataless(_ url: URL) -> Bool {
+        var st = stat()
+        if lstat(url.path, &st) == 0, st.st_flags & UInt32(SF_DATALESS) != 0 { return true }
+        if let v = try? url.resourceValues(forKeys: [.isUbiquitousItemKey, .ubiquitousItemDownloadingStatusKey]),
+           v.isUbiquitousItem == true, let status = v.ubiquitousItemDownloadingStatus, status != .current { return true }
+        return false
+    }
 
     static func scan() -> [CleanItem] {
+        let started = Date()
+        var hashedBytes: Int64 = 0
+        lastScanWasCutShort = false
+        func overBudget() -> Bool {
+            if Date().timeIntervalSince(started) > timeBudget || hashedBytes > byteBudget { lastScanWasCutShort = true; return true }
+            return false
+        }
         let home = Scanner.home
         let libraryPath = Scanner.library.path
         let keys: [URLResourceKey] = [.isRegularFileKey, .fileSizeKey, .contentModificationDateKey, .isPackageKey]
@@ -43,17 +68,27 @@ enum Duplicates {
             if v.isPackage == true { e.skipDescendants(); continue }
             if v.isRegularFile == true, isManaged(f) { continue }
             guard v.isRegularFile == true, let s = v.fileSize, s >= 1_000_000, s <= 4_000_000_000 else { continue }
+            if isDataless(f) { continue }
             bySize[s, default: []].append((f, v.contentModificationDate))
+            if overBudget() { break }
         }
 
-        // Pass 2: hash the candidates and group by content.
+        // Pass 2: hash the first 128 KB of each candidate; only files whose prefixes agree get a full hash.
         var groups: [(size: Int, files: [(URL, Date?)])] = []
-        for (size, files) in bySize where files.count > 1 {
-            var byHash: [String: [(URL, Date?)]] = [:]
+        outer: for (size, files) in bySize.sorted(by: { $0.key > $1.key }) where files.count > 1 {
+            var byPrefix: [String: [(URL, Date?)]] = [:]
             for f in files {
-                if let h = sha256(f.0) { byHash[h, default: []].append(f) }
+                if overBudget() { break outer }
+                if let h = sha256(f.0, limit: 131_072) { byPrefix[h, default: []].append(f); hashedBytes += 131_072 }
             }
-            for (_, g) in byHash where g.count > 1 { groups.append((size, g)) }
+            for (_, candidates) in byPrefix where candidates.count > 1 {
+                var byHash: [String: [(URL, Date?)]] = [:]
+                for f in candidates {
+                    if overBudget() { break outer }
+                    if let h = sha256(f.0) { byHash[h, default: []].append(f); hashedBytes += Int64(size) }
+                }
+                for (_, g) in byHash where g.count > 1 { groups.append((size, g)) }
+            }
         }
 
         return groups.map { size, g in
@@ -79,12 +114,15 @@ enum Duplicates {
         }
     }
 
-    static func sha256(_ url: URL) -> String? {
+    /// SHA-256 of the file, or of its first `limit` bytes.
+    static func sha256(_ url: URL, limit: Int = .max) -> String? {
         guard let h = try? FileHandle(forReadingFrom: url) else { return nil }
         defer { try? h.close() }
         var hasher = SHA256()
-        while let chunk = try? h.read(upToCount: 4_000_000), !chunk.isEmpty {
+        var remaining = limit
+        while remaining > 0, let chunk = try? h.read(upToCount: min(4_000_000, remaining)), !chunk.isEmpty {
             hasher.update(data: chunk)
+            remaining -= chunk.count
         }
         return hasher.finalize().map { String(format: "%02x", $0) }.joined()
     }

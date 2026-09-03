@@ -188,7 +188,8 @@ final class CleanupModel {
         Task {
             space = DiskSpace.current()
             trash = await Task.detached { Scanner.trashState() }.value
-            for kind in CleanKind.allCases {
+            // Duplicates last: it is the slow one, and the quick cards should not wait behind it.
+            for kind in CleanKind.allCases.sorted(by: { ($0 == .duplicates ? 1 : 0) < ($1 == .duplicates ? 1 : 0) }) {
                 phase = .scanning(kind.scanningLabel)
                 let cat = await Task.detached(priority: .userInitiated) { Scanner.scan(kind) }.value
                 if !cat.items.isEmpty { categories.append(cat) }

@@ -301,6 +301,7 @@ final class CaptureWindow: NSWindow {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
+        Updates.scheduleBackgroundChecks()
         let args = CommandLine.arguments
         if let i = args.firstIndex(where: { $0 == "--screenshots" || $0 == "screenshots" }), i + 1 < args.count {
             let dir = args[i + 1]

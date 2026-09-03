@@ -15,6 +15,7 @@ struct SettingsView: View {
 }
 
 struct GeneralSettings: View {
+    @AppStorage("autoUpdateCheck") private var autoUpdate = false
     @AppStorage("menuBar") private var menuBar = true
     @AppStorage(Scheduler.Key.weeklyTidy) private var weeklyTidy = false
     @AppStorage(Scheduler.Key.reminders) private var reminders = true
@@ -27,6 +28,8 @@ struct GeneralSettings: View {
             Section {
                 Toggle("Show Tidy for Mac in the menu bar", isOn: $menuBar)
                 Toggle("Open Tidy for Mac when I log in", isOn: $launchAtLogin)
+                Toggle("Check for a new version once a day", isOn: $autoUpdate)
+                Text("One request to GitHub, no identifiers. A new version is offered as a download; nothing installs by itself.").font(.caption).foregroundStyle(.secondary)
                     .onChange(of: launchAtLogin) { _, on in
                         loginError = Scheduler.setLaunchAtLogin(on)
                         if loginError != nil { launchAtLogin = Scheduler.launchAtLogin }
