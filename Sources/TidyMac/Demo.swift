@@ -1,3 +1,4 @@
+import ServiceManagement
 //  Demo data and screenshot rendering.
 //
 //  `TidyMac --screenshots <dir>` fills every model with made-up sample data, renders each window
@@ -301,6 +302,12 @@ final class CaptureWindow: NSWindow {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // The weekly quiet tidy and reminders only run while the app is open: register as a login
+        // item once, the first time this version runs. Settings turns it off.
+        if !UserDefaults.standard.bool(forKey: "loginItemOffered") {
+            UserDefaults.standard.set(true, forKey: "loginItemOffered")
+            try? SMAppService.mainApp.register()
+        }
         Updates.scheduleBackgroundChecks()
         let args = CommandLine.arguments
         if let i = args.firstIndex(where: { $0 == "--screenshots" || $0 == "screenshots" }), i + 1 < args.count {

@@ -15,7 +15,7 @@ struct SettingsView: View {
 }
 
 struct GeneralSettings: View {
-    @AppStorage("autoUpdateCheck") private var autoUpdate = false
+    @AppStorage("autoUpdateCheck") private var autoUpdate = true
     @AppStorage("menuBar") private var menuBar = true
     @AppStorage(Scheduler.Key.weeklyTidy) private var weeklyTidy = false
     @AppStorage(Scheduler.Key.reminders) private var reminders = true
